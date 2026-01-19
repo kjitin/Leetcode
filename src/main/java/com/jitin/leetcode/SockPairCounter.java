@@ -10,13 +10,7 @@ public class SockPairCounter {
     public int countPairs(List<Integer> socks) {
         Map<Integer, Integer> sockCounter = new HashMap<>();
 
-        for (Integer sock: socks) {
-            sockCounter.put(sock, sockCounter.getOrDefault(sock, 0)+1);
-        }
-         int pairs = 0;
-        for (Integer count: sockCounter.values()) {
-            pairs += count/2;
-        }
-        return pairs;
+        socks.forEach(s -> sockCounter.merge(s, 1, Integer::sum));
+         return sockCounter.values().stream().mapToInt(sockCount -> sockCount/2).sum();
     }
 }
