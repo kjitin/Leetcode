@@ -3,6 +3,7 @@ package com.jitin.hackerrank;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -14,25 +15,10 @@ public class NewYearChaos {
 
     public static void main(String[] args) throws IOException {
 
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-
-        int t = Integer.parseInt(bufferedReader.readLine().trim());
-
-        IntStream.range(0, t).forEach(tItr -> {
-            try {
-                int n = Integer.parseInt(bufferedReader.readLine().trim());
-
-                List<Integer> q = Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
-                        .map(Integer::parseInt)
-                        .collect(toList());
-
-                NewYearChaos.minimumBribes(q);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
-
-        bufferedReader.close();
+        List<Integer> q = Arrays.asList(1 ,2 ,5, 3, 7, 8, 6, 4);
+        List<Integer> q1 = Arrays.asList(1 ,2 ,5, 3, 7, 8, 6, 4);
+        NewYearChaos.minimumBribesForward(q);
+        NewYearChaos.minimumBribes(q1);
     }
 
     public static void minimumBribes(List<Integer> q) {
@@ -56,6 +42,47 @@ public class NewYearChaos {
             }
         }
         System.out.println(bribeCount);
+
+    }
+
+    public static void minimumBribesForward(List<Integer> q) {
+        // Write your code here
+        int bribeCount =0;
+        for (int i = 0; i <= q.size()-1 ; i++) {
+
+            if (q.get(i) != i+1) {
+                if (((i+1) <= q.size() -1) && q.get(i+1) == (i+1)) {
+                    bribeCount++;
+                    swap(q, i, i+1);
+                } else if (((i+2) <= q.size() -1) && q.get(i+2) == (i+1)) {
+                    bribeCount+=2;
+                    swap(q, i+2, i+1);
+                    swap(q, i+1, i);
+                } else {
+                    System.out.println("Too chaotic");
+                    return;
+                }
+
+            }
+        }
+        System.out.println(bribeCount);
+
+    }
+
+    public static void minimumBribesSimple(List<Integer> q) {
+        // Write your code here
+        int minimumBribes = 0;
+        for(int i =0; i< q.size(); i++) {
+            if(i+1 < q.size() && q.get(i) != i+1) {
+                minimumBribes = q.get(i) - q.get(i+1);
+                swap(q, i, i+1);
+                if(minimumBribes >= 3) {
+                    System.out.println("Too chaotic");
+                    break;
+                }
+            }
+        }
+        System.out.println(minimumBribes);
 
     }
 
