@@ -5,7 +5,7 @@ import java.util.Stack;
 public class ValidParentheses {
 
     public static void main(String[] args) {
-        System.out.println(isValid("{()}"));
+        System.out.println(isValid("{()}}"));
     }
 
     public static boolean isValid(String braces) {
@@ -18,10 +18,12 @@ public class ValidParentheses {
         for (Character ch : braces.toCharArray()) {
             if (ch == '(' || ch == '{' || ch == '[') {
                 stack.push(ch);
-            } else if ((ch == ')' && stack.peek() == '(') || (ch == '}' && stack.peek() == '{') || (ch == ']' && stack.peek() == '[')) {
-                stack.pop();
             } else {
-                stack.push(ch);
+                if (stack.isEmpty()) return false;
+                char top  = stack.pop();
+                if(ch == ')' && top != '(') return false;
+                if(ch == '}' && top != '{') return false;
+                if(ch == ']' && top != '[') return false;
             }
         }
 
