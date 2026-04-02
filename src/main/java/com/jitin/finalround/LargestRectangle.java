@@ -26,7 +26,8 @@ public class LargestRectangle {
 
                 // Width stretches from the new stack top (+1) to i (-1)
                 // If stack is empty, the bar could extend all the way to index 0
-                int width = stack.isEmpty() ? i : i - stack.peek() - 1;
+                // width = right -left +1 // (i-1) -(stack.peek+1) +1 //i - stack.peek() - 1;
+                int width = stack.isEmpty() ? i : (i-1) - (stack.peek()+1) + 1;
 
                 int area = height * width;
                 System.out.println("area calculated"+ area);
